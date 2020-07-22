@@ -21,7 +21,18 @@ mongoose
   })
   .then(() => {
     // Run your code here, after you have insured that the connection was made
+    Recipe.create({title: 'Sopa de Caracol', level: 'Easy Peasy', ingredients: ['sopa', 'caracol'], cuisine: 'Argentina', dishType: 'other', duration: 15, creator: 'el mas capo'})
   })
+
+  .then(() => {
+    Recipe.insertMany(data);
+    data.forEach(elem => {
+      console.log(`Recipe name: ${elem.title}`)
+    });
+    
+
+  })
+
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
