@@ -30,41 +30,33 @@ mongoose
   })
   .then(() => {
     // Run your code here, after you have insured that the connection was made
+    Recipe.create(newRecipe)
+      .then((newRecp) =>
+        console.log(`The new added recipe it's called ${newRecp.title}`)
+      )
 
-    // Iteration 2
-    Recipe.create(newRecipe).
-    then((rec) =>
-      console.log(`There's a new recipe. His title is ${rec.title}`)
-    )
-    //Iteration 3
-    .then(() => {
-      Recipe.insertMany(data);
-      data.forEach((rcp) => {
-        console.log(`Recipe title: ${rcp.title}`);
-      });
-    })
-  
-    //Iteration 4
-    .then(() => Recipe.findOneAndUpdate(
-        { title: "Rigatoni alla Genovese" },
-        { duration: 100 },
-        { new: true }
-      ))
-      node 
-    .then((newUpd) => console.log(`SUCCESS! The updated recipe is`, newUpd))
-  
-    .then(() => {
-      Recipe.deleteOne({ title: "Carrot Cake" })
+      .then(() => {
+        Recipe.insertMany(data);
+        data.forEach((recp) => {
+          console.log(`Recipe name: ${recp.title}`);
+        });
+      })
+
       .then(() =>
-        console.log(`The Carrot Cake has been deleted`)
-      );
-    })
-  
-    .then(() => mongoose.connection.close())
-    .then(() => console.log('Database disconnected, goodbye.'))
-    
-  })
+        Recipe.findOneAndUpdate(
+          { title: "Rigatoni alla Genovese" },
+          { duration: 100 },
+          { new: true }
+        )
+      )
+      .then((updt) => console.log("The updated recipe is", updt))
 
+      .then(() => Recipe.deleteOne({ title: "Carrot Cake" }))
+      .then(() => console.log("Carrot Cake recipe has been eliminated"))
+
+      .then(() => mongoose.connection.close())
+      .then(() => console.log("Database disconnected, goodbye!"));
+  })
 
   .catch((error) => {
     console.error("Error connecting to the database", error);
